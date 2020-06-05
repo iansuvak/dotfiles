@@ -1,0 +1,1 @@
+("~/Code/mesa_hub_service/" "~/Code/delos/" "~/Code/mesa_hub_client/" "~/Code/crucible/" "~/Code/k8s-helm/" "~/Code/sweetwater/" "~/Code/ml-plats-mkdocs/" "~/dotfiles/" "~/Code/puppet/" "~/Code/k8s-application-registry/" "~/Code/webstack_repos/resources/" "~/Code/spirit-oep/" "~/Code/belkirk-jekyll-demo/" "~/Downloads/airspace-jekyll-master/" "~/Code/webstack_repos/php/")

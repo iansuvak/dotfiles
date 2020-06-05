@@ -1,0 +1,108 @@
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-oceanicnext.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+# Set my terminal if I'm not in tmux.
+[[ "$TMUX" == "" ]] && TERM=xterm-256color
+
+# Set name of the theme to load.
+ZSH_THEME="agnoster"
+#robbyrussell
+
+# Disable autosetting terminal title.
+DISABLE_AUTO_TITLE="true"
+
+# Disable command autocorrection.
+DISABLE_CORRECTION="true"
+
+# Display red dots while waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Disable marking untracked files under VCS as dirty. This makes repository
+# status check for large repositories much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Load these oh-my-zsh plugins.
+plugins=(git colorize themes vi-mode)
+
+source $ZSH/oh-my-zsh.sh
+
+# Configure zsh options #######################################################
+setopt AUTO_LIST        # Display completion candidates immediately.
+setopt CDABLE_VARS      # When an argument should be a dir but is not one,
+                        # expand it as if it started with ~ (see below).
+setopt AUTO_NAME_DIRS   # Any parameter that is set to an abosolute directory
+                        # name automatically becomes a name for that directory
+                        # in the form ~param.
+setopt HIST_IGNORE_DUPS # Do not record a command in the history if it is a
+                        # duplicate of the previous one.
+setopt LIST_TYPES       # When listing files that are possible completions,
+                        # indicate their types with a trailing character.
+setopt MENU_COMPLETE    # On an ambiguous completion, insert the first match
+                        # immediately rather than waiting for another tab.
+setopt NO_LIST_BEEP     # No bell on ambiguous completion!!
+
+# Adjust widget behaviors. ####################################################
+# While selecting from menu completion, pressing enter accepts the selection
+# and executes the command.
+bindkey -M menuselect '^M' .accept-line
+
+# Customize to your needs...
+export PATH=/usr/local/bin:$PATH
+
+# Perform a visual diff of conflicted source files in vim.
+function vdiff () {
+  if [ $# -eq 0 ]; then
+    echo "Usage: vdiff FILENAME"
+    return 1
+  else
+    BASE_FILE="$1"
+    MINE_FILE="$1.working"
+
+    if [ ! -f "$MINE_FILE" ]; then
+      echo "The base file given does not have a .mine variation."
+      return 1
+    fi
+
+    # Get all of the file variations and find the numbered ones.
+    FILES=$(ls $1.merge-*.r*)
+    files=("${(f)FILES}")
+    #read V1_FILE V2_FILE <<< $(ls -1 $1.merge-*.r*)
+
+    if [[ $#files -lt 2 ]]; then
+      echo "I couldn't find revision variations ($1.merge-*.r*)."
+      return 1
+    fi
+
+    #if [ ! -f "$V1_FILE" ] || [ ! -f "$V2_FILE" ]; then
+    # echo "I can't find revision variations ($1.r*)."
+    # return 1
+    #fi
+
+    # Re-shuffle them if they're not in numerical order.
+    if [[ "${files[1]##*.r}" -gt "${files[2]##*.r}" ]]; then
+      LEFT_FILE=$files[2]
+      RIGHT_FILE=$files[1]
+    else
+      LEFT_FILE=$files[1]
+      RIGHT_FILE=$files[2]
+    fi
+
+    #echo "Starting vimdiff with $LEFT_FILE -> $MINE_FILE -> $RIGHT_FILE"
+    #vim -d "$LEFT_FILE" "$MINE_FILE" "$RIGHT_FILE"
+    vim "$1" -c "split $RIGHT_FILE | diffthis | vert split $MINE_FILE | diffthis | vert split $LEFT_FILE | diffthis"
+  fi
+}
+
+alias such=git
+alias very=git
+alias wow='git status'
+
+export LC_ALL=en_US.UTF-8
+
+# load local_zshrc if exists
+[[ -a ~/dotfiles/local_zshrc ]] && source ~/dotfiles/local_zshrc
+
