@@ -1,1 +1,4 @@
 local_*
+configs/emacs.d/*
+!configs/emacs.d/init.el
+!configs/emacs.d/early-init.el
