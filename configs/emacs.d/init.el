@@ -97,7 +97,8 @@
 (setq org-roam-v2-ack t)
 (use-package org-roam
       :ensure t
-      :config (visual-line-mode)
+      :config
+      (add-hook 'text-mode-hook #'visual-line-mode)
       (org-roam-db-autosync-mode)
       (add-to-list 'display-buffer-alist
              '("\\*org-roam\\*"
@@ -105,6 +106,7 @@
                (direction . right)
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
+      (require 'org-roam-protocol)
       :custom
       (org-roam-directory "~/Dropbox/org/roam")
       (org-roam-dailies-directory "daily/")
@@ -112,10 +114,11 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n"))))
+                            "#+title: %<%Y-%m-%d>\nStreak:\n* Personal\n* Work"))))
       (doom-themes-org-config)
       :bind  ("C-c n l" . org-roam-buffer-toggle)
              ("C-c n t" . org-roam-dailies-goto-today)
+             ("C-c n y" . org-roam-dailies-goto-yesterday)
              ("C-c n f" . org-roam-node-find)
              ("C-c n i" . org-roam-node-insert)
              ("C-c n g" . org-roam-show-graph)
@@ -141,6 +144,7 @@
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
 
 ;;; Misc packages
 (use-package auto-complete
