@@ -114,7 +114,7 @@
       '(("d" "default" entry
          "* %?"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\nStreak:\n* Personal\n* Work"))))
+                            "#+title: %<%Y-%m-%d>\n\nStreak:\n\n* Personal\n\n* Work"))))
       (doom-themes-org-config)
       :bind  ("C-c n l" . org-roam-buffer-toggle)
              ("C-c n t" . org-roam-dailies-goto-today)
