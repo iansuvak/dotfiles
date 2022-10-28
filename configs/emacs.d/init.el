@@ -125,6 +125,15 @@
              ("C-c n c" . org-roam-capture)
       )
 
+;;; Languages
+(straight-use-package 'lsp-mode)
+(straight-use-package 'lsp-ui)
+(straight-use-package 'company-mode)
+;;; Golang
+(straight-use-package 'go-mode)
+(straight-use-package 'gotest)
+
+
 ;;; Doom Theme
 
 (use-package doom-themes
@@ -161,3 +170,9 @@
             (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+
+
+;;; Load local configs if they exist
+(let ((local-configs "~/.emacs.d/local.el"))
+  (when (file-exists-p local-configs)
+    (load-file local-configs)))
