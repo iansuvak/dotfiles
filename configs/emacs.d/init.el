@@ -36,6 +36,15 @@
 ;(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (visual-line-mode 1)
 
+; undo-tree
+(use-package undo-tree
+  :ensure t
+  :after evil
+  :diminish
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
+
 ;;; EVIL
 
 (straight-use-package 'evil)
@@ -43,7 +52,6 @@
 (straight-use-package 'evil-leader)
 (global-evil-leader-mode)
 (evil-mode 1)
-
 
 (evil-leader/set-leader "\\")
 (evil-leader/set-key
