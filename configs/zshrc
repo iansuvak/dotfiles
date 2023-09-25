@@ -105,4 +105,5 @@ export LC_ALL=en_US.UTF-8
 
 # load local_zshrc if exists
 [[ -a ~/dotfiles/local_zshrc ]] && source ~/dotfiles/local_zshrc
+[[ -a ~/Code/dotfiles/local_zshrc ]] && source ~/Code/dotfiles/local_zshrc
 

@@ -34,7 +34,7 @@
 (show-paren-mode 1)
 
 ;(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-(visual-line-mode 1)
+(add-hook 'text-mode-hook #'visual-line-mode)
 
 ; undo-tree
 (use-package undo-tree
@@ -118,6 +118,7 @@
       :custom
       (org-roam-directory "~/Dropbox/org/roam")
       (org-roam-dailies-directory "daily/")
+      (org-image-actual-width (list 550))
       (org-roam-dailies-capture-templates
       '(("d" "default" entry
          "* %?"
@@ -132,6 +133,25 @@
              ("C-c n g" . org-roam-show-graph)
              ("C-c n c" . org-roam-capture)
       )
+(use-package org-roam-ui
+  :straight
+    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    :after org-roam
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+    :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
+(use-package org-download
+  :after org
+  :bind
+  (:map org-mode-map
+        (("s-y" . org-download-clipboard))))
 
 ;;; Languages
 (straight-use-package 'lsp-mode)
@@ -184,3 +204,21 @@
 (let ((local-configs "~/.emacs.d/local.el"))
   (when (file-exists-p local-configs)
     (load-file local-configs)))
+
+(use-package ligature
+  :straight (:host github :repo "mickeynp/ligature.el")
+  :config
+  ;; Enable the www ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode 't))
